@@ -1,158 +1,227 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import "./../../styles/auth.css";
+import "../../styles/auth.css";
 
-const Register = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    address: "",
-    password: "",
-    confirmPassword: "",
-  });
+import authIllustration from "../../assets/Storephoto.png";
 
-  const [errors, setErrors] = useState({});
+export default function Register() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [fullName, setFullName] = useState("");
+  const [address, setAddress] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const validate = () => {
-    let newErrors = {};
-
-    if (formData.name.length < 20 || formData.name.length > 60) {
-      newErrors.name = "Name must be between 20 and 60 characters";
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!emailRegex.test(formData.email)) {
-      newErrors.email = "Invalid Email";
-    }
-
-    if (formData.address.length > 400) {
-      newErrors.address = "Address cannot exceed 400 characters";
-    }
-
-    const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,16}$/;
-
-    if (!passwordRegex.test(formData.password)) {
-      newErrors.password =
-        "Password must contain uppercase & special character";
-    }
-
-    if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match";
-    }
-
-    setErrors(newErrors);
-
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!validate()) return;
-
-    console.log(formData);
-  };
+  const checks = useMemo(
+    () => ({
+      length: password.length >= 8 && password.length <= 16,
+      uppercase: /[A-Z]/.test(password),
+      special: /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password),
+    }),
+    [password],
+  );
 
   return (
-    <div className="auth-container">
-      <div className="auth-left">
-        <h1>Store Rating Platform</h1>
-
-        <p>
-          Rate stores, discover trusted businesses and share your experience.
-        </p>
-      </div>
-
-      <div className="auth-right">
-        <form className="auth-form" onSubmit={handleSubmit}>
-          <h2>Create Account</h2>
-
-          <label htmlFor="name">Full Name</label>
-          <input
-            id="name"
-            type="text"
-            placeholder="Full Name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-          />
-          <span>{errors.name}</span>
-
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            placeholder="Email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-          />
-          <span>{errors.email}</span>
-
-          <label htmlFor="address">Address</label>
-          <textarea
-            id="address"
-            placeholder="Address"
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-          />
-          <span>{errors.address}</span>
-
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            type="password"
-            placeholder="Password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-          />
-          <span>{errors.password}</span>
-
-          <label htmlFor="confirmPassword">Confirm Password</label>
-          <input
-            id="confirmPassword"
-            type="password"
-            placeholder="Confirm Password"
-            name="confirmPassword"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-          />
-          <span>{errors.confirmPassword}</span>
-
-          <div className="checkbox-group">
-            <input
-              id="terms"
-              type="checkbox"
-              name="terms"
-              checked={formData.terms || false}
-              onChange={handleChange}
-            />
-            <label htmlFor="terms">
-              I agree to the Terms & Conditions and Privacy Policy
-            </label>
+    <div className="auth-page">
+      <div className="auth-shell">
+        <aside className="auth-brand-panel">
+          <div className="brand-block">
+            <div className="brand-logo">
+              <span className="brand-logo-star">★</span>
+            </div>
+            <div>
+              <h2>Store Rating</h2>
+              <p>Rate. Review. Discover.</p>
+            </div>
           </div>
-          <span>{errors.terms}</span>
 
-          <button type="submit">Create Account</button>
+          <div className="brand-copy">
+            <h1>Join the Store Rating Platform</h1>
+            <p>
+              Create an account to rate stores, share your experience and help
+              others make better choices.
+            </p>
+          </div>
 
-          <p>
-            Already have an account?
-            <Link to="/login"> Login</Link>
-          </p>
-        </form>
+          <div className="feature-list">
+            <div className="feature-item">
+              <div className="feature-icon">☆</div>
+              <div>
+                <h3>Rate your favorite stores</h3>
+                <p>Share honest ratings</p>
+              </div>
+            </div>
+
+            <div className="feature-item">
+              <div className="feature-icon">◎</div>
+              <div>
+                <h3>Discover trusted stores</h3>
+                <p>See real customer feedback</p>
+              </div>
+            </div>
+
+            <div className="feature-item">
+              <div className="feature-icon">✓</div>
+              <div>
+                <h3>Secure &amp; Reliable</h3>
+                <p>Your data is always protected</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="brand-illustration-wrap">
+            <img
+              src={authIllustration}
+              alt="Store rating storefront"
+              className="brand-illustration"
+            />
+          </div>
+        </aside>
+
+        <section className="auth-form-panel">
+          <div className="auth-card">
+            <div className="auth-card-header">
+              <h2>Create Your Account</h2>
+              <p>Sign up to get started</p>
+            </div>
+
+            <form className="auth-form">
+              <div className="form-group">
+                <div className="label-row">
+                  <label htmlFor="fullName">
+                    Full Name <span>*</span>
+                  </label>
+                  <span className="char-count">{fullName.length} / 60</span>
+                </div>
+                <input
+                  type="text"
+                  id="fullName"
+                  name="fullName"
+                  maxLength={60}
+                  placeholder="Enter your full name"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                />
+                <small>Name must be between 20 and 60 characters.</small>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="email">
+                  Email Address <span>*</span>
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Enter your email address"
+                />
+                <small>Enter a valid email address.</small>
+              </div>
+
+              <div className="form-group">
+                <div className="label-row">
+                  <label htmlFor="address">
+                    Address <span>*</span>
+                  </label>
+                  <span className="char-count">{address.length} / 400</span>
+                </div>
+                <textarea
+                  id="address"
+                  name="address"
+                  maxLength={400}
+                  rows={4}
+                  placeholder="Enter your address"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                />
+                <small>Maximum 400 characters allowed.</small>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="password">
+                  Password <span>*</span>
+                </label>
+                <div className="input-with-icon">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <button
+                    type="button"
+                    className="password-toggle"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    aria-label={
+                      showPassword ? "Hide password" : "Show password"
+                    }
+                  >
+                    {showPassword ? "🙈" : "👁"}
+                  </button>
+                </div>
+
+                <ul className="password-hints">
+                  <li className={checks.length ? "is-valid" : ""}>
+                    8 - 16 characters
+                  </li>
+                  <li className={checks.uppercase ? "is-valid" : ""}>
+                    At least one uppercase letter (A-Z)
+                  </li>
+                  <li className={checks.special ? "is-valid" : ""}>
+                    At least one special character (!@#$%^&amp;*)
+                  </li>
+                </ul>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="confirmPassword">
+                  Confirm Password <span>*</span>
+                </label>
+                <div className="input-with-icon">
+                  <input
+                    type={showConfirmPassword ? "text" : "password"}
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    placeholder="Confirm your password"
+                  />
+                  <button
+                    type="button"
+                    className="password-toggle"
+                    onClick={() => setShowConfirmPassword((prev) => !prev)}
+                    aria-label={
+                      showConfirmPassword ? "Hide password" : "Show password"
+                    }
+                  >
+                    {showConfirmPassword ? "🙈" : "👁"}
+                  </button>
+                </div>
+              </div>
+
+              <label
+                className="checkbox-row checkbox-row-terms"
+                htmlFor="terms"
+              >
+                <input type="checkbox" id="terms" name="terms" />
+                <span>
+                  I agree to the <Link to="/terms">Terms &amp; Conditions</Link>{" "}
+                  and <Link to="/privacy">Privacy Policy</Link>
+                </span>
+              </label>
+
+              <button type="submit" className="auth-submit-btn">
+                Create Account
+              </button>
+            </form>
+
+            <div className="auth-divider" />
+
+            <p className="auth-footer-text">
+              Already have an account? <Link to="/login">Login</Link>
+            </p>
+          </div>
+        </section>
       </div>
     </div>
   );
-};
-
-export default Register;
+}
