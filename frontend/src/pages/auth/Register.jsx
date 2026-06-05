@@ -1,5 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "../../styles/auth.css";
 
 import authIllustration from "../../assets/Storephoto.png";
@@ -10,6 +12,11 @@ export default function Register() {
   const [fullName, setFullName] = useState("");
   const [address, setAddress] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const checks = useMemo(
     () => ({
@@ -19,6 +26,37 @@ export default function Register() {
     }),
     [password],
   );
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/register",
+        {
+          name: fullName,
+          email,
+          password,
+          address,
+        },
+      );
+
+      alert(response.data.message);
+
+      navigate("/login");
+    } catch (error) {
+      alert(error.response?.data?.message || "Registration Failed");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="auth-page">
@@ -84,7 +122,7 @@ export default function Register() {
               <p>Sign up to get started</p>
             </div>
 
-            <form className="auth-form">
+            <form className="auth-form" onSubmit={handleSubmit}>
               <div className="form-group">
                 <div className="label-row">
                   <label htmlFor="fullName">
@@ -113,6 +151,8 @@ export default function Register() {
                   id="email"
                   name="email"
                   placeholder="Enter your email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
                 <small>Enter a valid email address.</small>
               </div>
@@ -157,7 +197,7 @@ export default function Register() {
                       showPassword ? "Hide password" : "Show password"
                     }
                   >
-                    {showPassword ? "🙈" : "👁"}
+                    {showPassword ? "⌣" : "👁"}
                   </button>
                 </div>
 
@@ -184,6 +224,8 @@ export default function Register() {
                     id="confirmPassword"
                     name="confirmPassword"
                     placeholder="Confirm your password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
                   />
                   <button
                     type="button"
@@ -202,15 +244,19 @@ export default function Register() {
                 className="checkbox-row checkbox-row-terms"
                 htmlFor="terms"
               >
-                <input type="checkbox" id="terms" name="terms" />
+                <input type="checkbox" id="terms" name="terms" required/>
                 <span>
                   I agree to the <Link to="/terms">Terms &amp; Conditions</Link>{" "}
                   and <Link to="/privacy">Privacy Policy</Link>
                 </span>
               </label>
 
-              <button type="submit" className="auth-submit-btn">
-                Create Account
+              <button
+                type="submit"
+                className="auth-submit-btn"
+                disabled={loading}
+              >
+                {loading ? "Creating..." : "Create Account"}
               </button>
             </form>
 
