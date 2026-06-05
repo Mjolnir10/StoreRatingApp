@@ -102,7 +102,7 @@ export default function Login() {
                       showPassword ? "Hide password" : "Show password"
                     }
                   >
-                    {showPassword ? "🙈" : "👁"}
+                    {showPassword ? "⌣" : "👁"}
                   </button>
                 </div>
                 <small>Use the password you created during signup.</small>
