@@ -2,9 +2,48 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import "../../styles/auth.css";
 import authIllustration from "../../assets/Storephoto.png";
+import { useNavigate } from "react-router-dom";
+import { loginUser } from "../../services/authService";
 
 export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+
+      const response = await loginUser({
+        email,
+        password,
+      });
+
+      localStorage.setItem("token", response.data.token);
+
+      localStorage.setItem("role", response.data.role);
+
+      localStorage.setItem("name", response.data.name);
+
+      // redirect based on role
+
+      if (response.data.role === "admin") {
+        navigate("/admin/dashboard");
+      } else if (response.data.role === "store_owner") {
+        navigate("/owner/dashboard");
+      } else {
+        navigate("/stores");
+      }
+    } catch (error) {
+      alert(error.response?.data?.message || "Login Failed");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="auth-page">
@@ -69,7 +108,7 @@ export default function Login() {
               <p>Enter your details to continue</p>
             </div>
 
-            <form className="auth-form">
+            <form className="auth-form" onSubmit={handleSubmit}>
               <div className="form-group">
                 <label htmlFor="email">
                   Email Address <span>*</span>
@@ -79,6 +118,8 @@ export default function Login() {
                   id="email"
                   name="email"
                   placeholder="Enter your email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
                 <small>Enter a valid email address.</small>
               </div>
@@ -93,6 +134,8 @@ export default function Login() {
                     id="password"
                     name="password"
                     placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                   <button
                     type="button"
@@ -119,8 +162,12 @@ export default function Login() {
                 </Link>
               </div>
 
-              <button type="submit" className="auth-submit-btn">
-                Login
+              <button
+                type="submit"
+                className="auth-submit-btn"
+                disabled={loading}
+              >
+                {loading ? "Logging in..." : "Login"}
               </button>
             </form>
 
