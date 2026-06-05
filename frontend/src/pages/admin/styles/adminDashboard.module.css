@@ -1,0 +1,31 @@
+.root {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.mainContent {
+  flex-grow: 1;
+  margin-top: 64px; /* height of MUI AppBar */
+  margin-left: 240px; /* drawer width */
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.statsRow,
+.chartsRow {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+@media (max-width: 960px) {
+  .statsRow,
+  .chartsRow {
+    flex-direction: column;
+  }
+}
+
+.tableSection {
+  margin-top: 24px;
+}
