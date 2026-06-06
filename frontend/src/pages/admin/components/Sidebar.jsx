@@ -26,7 +26,7 @@ export default function Sidebar({ links }) {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.logo}>
-        <div className={styles.logoIcon}>★</div>
+        <div className={styles.logoIcon}><span className={styles.logoStar}>★</span></div>
         <div>
           <h2>Store Rating</h2>
           <span>Rate. Review. Discover.</span>
