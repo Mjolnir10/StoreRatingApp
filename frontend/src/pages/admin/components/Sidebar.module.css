@@ -1,0 +1,79 @@
+.sidebar {
+  width: 270px;
+  background: white;
+  padding: 30px 20px;
+  border-right: 1px solid #f0f2f8;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+.logoIcon {
+  width: 50px;
+  height: 50px;
+  background: #6c63ff;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 14px;
+}
+
+.logo h2 {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.logo span {
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+nav a, nav .link {
+  display: flex;
+  height: 54px;
+  gap: 15px;
+  align-items: center;
+  padding: 0 18px;
+  border-radius: 16px;
+  color: #475569;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+nav a:hover {
+  background: #f4f1ff;
+}
+
+.active {
+  background: #f4f1ff;
+  color: #6c63ff;
+  box-shadow: 0 4px 12px rgba(108, 99, 255, 0.12);
+}
+
+.logout {
+  position: absolute;
+  bottom: 25px;
+  left: 25px;
+  right: 25px;
+  border: none;
+  background: none;
+  display: flex;
+  gap: 10px;
+  padding: 14px;
+}

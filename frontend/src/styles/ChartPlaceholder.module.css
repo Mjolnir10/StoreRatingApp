@@ -1,0 +1,21 @@
+.container {
+  background: #fff;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.title {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  color: #333;
+}
+.chart {
+  height: 200px;
+  background: linear-gradient(135deg, #e0eaff 0%, #f5faff 100%);
+  border: 1px dashed #c0d8ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 0.9rem;
+}

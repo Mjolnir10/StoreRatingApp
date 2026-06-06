@@ -1,26 +1,15 @@
-import React from "react";
-import { Card, CardContent, Typography, Box } from "@mui/material";
-import { ShoppingCart, People, AttachMoney } from "@mui/icons-material";
+import styles from "./StatCard.module.css";
 
-const iconMap = {
-  store: <ShoppingCart fontSize="large" />, // pass "store"
-  people: <People fontSize="large" />, // pass "people"
-  revenue: <AttachMoney fontSize="large" />, // pass "revenue"
-};
-
-export default function StatCard({ title, value, icon }) {
-  const iconElement = iconMap[icon] || <ShoppingCart fontSize="large" />;
+export default function StatCard({ title, value, icon, growth }) {
   return (
-    <Card sx={{ minWidth: 200, textAlign: "center", p: 2 }}>
-      <CardContent>
-        <Box sx={{ display: "flex", justifyContent: "center", mb: 1 }}>{iconElement}</Box>
-        <Typography variant="subtitle2" color="textSecondary">
-          {title}
-        </Typography>
-        <Typography variant="h5" component="div">
-          {value}
-        </Typography>
-      </CardContent>
-    </Card>
+    <div className={styles.card}>
+      <div className={styles.icon}>{icon}</div>
+
+      <div>
+        <p>{title}</p>
+        <h2>{value}</h2>
+        <span>{growth}</span>
+      </div>
+    </div>
   );
 }

@@ -1,0 +1,61 @@
+/* Table.module.css */
+.card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.07);
+  margin-top: 20px;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.top h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.top button {
+  background: #6c63ff;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.top button:hover {
+  background: #5a52d9;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+th {
+  background: #f8f8f8;
+  font-weight: 600;
+  color: #555;
+}
+
+.active {
+  color: #28a745;
+  font-weight: 600;
+}
+
+tbody tr:hover {
+  background: #fafafa;
+}
